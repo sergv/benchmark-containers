@@ -1,0 +1,90 @@
+cabal-version: 3.6
+
+-- Created :  3 April 2024
+
+name:
+  benchmark-containers
+version:
+  0.1
+synopsis:
+  TODO
+description:
+  TODO
+copyright:
+  (c) Sergey Vinokurov 2024
+license:
+  Apache-2.0
+-- license-file:
+--   LICENSE
+author:
+  Sergey Vinokurov
+maintainer:
+  Sergey Vinokurov <serg.foo@gmail.com>
+
+build-type:
+  Simple
+
+extra-source-files:
+  Changelog.md
+  Readme.md
+
+homepage:
+  https://github.com/sergv/benchmark-containers
+
+source-repository head
+  type: git
+  location: https://github.com/sergv/benchmark-containers.git
+
+common ghc-options
+  default-language:
+    GHC2021
+
+  default-extensions:
+    LambdaCase
+
+  ghc-options:
+    -Weverything
+    -Wno-all-missed-specialisations
+    -Wno-implicit-prelude
+    -Wno-missed-specialisations
+    -Wno-missing-import-lists
+    -Wno-missing-local-signatures
+    -Wno-missing-safe-haskell-mode
+    -Wno-safe
+    -Wno-unsafe
+
+  if impl(ghc >= 8.8)
+    ghc-options:
+      -Wno-missing-deriving-strategies
+
+  if impl(ghc >= 9.2)
+    ghc-options:
+      -Wno-missing-kind-signatures
+
+  if impl(ghc >= 9.8)
+    ghc-options:
+      -Wno-missing-role-annotations
+      -Wno-missing-poly-kind-signatures
+
+benchmark map-benchmark
+  import: ghc-options
+  type:
+    exitcode-stdio-1.0
+  main-is:
+    bench/MapBenchmarkMain.hs
+  build-depends:
+    , base >= 4.16
+    , bytestring
+    , containers
+    , deepseq
+    , random
+    , tasty
+    , tasty-bench >= 0.3.4
+    , text >= 2.0
+    , text-builder-linear
+  ghc-options:
+    -rtsopts
+    -- -threaded
+    -- "-with-rtsopts=-A32M -M"
+    "-with-rtsopts=-M2G"
+    -main-is MapBenchmarkMain
